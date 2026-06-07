@@ -1,20 +1,21 @@
-# Proyecto sensor DHT en ESP32
+# Proyecto sensor BMP en ESP32
 
 Proyecto desarrollado con ESP32 utilizando PlatformIO.
 
 ## Descripción
 
-Se obtiene aceleracion del sensor MPU 6050
+Se obtiene aceleracion del sensor BMP 280
 Se muestra estos datos en una pantalla OLED y por interfaz serial.
 
 ## Funcionalidades implementadas
 
-- Aceleracion
+- Presion Barometrica
+- Altitud
 
 ## Hardware utilizado
 
 - ESP32 DevKit
-- MPU 6050
+- BMP 280
 
 ## Librerías utilizadas
 
@@ -23,7 +24,7 @@ Se muestra estos datos en una pantalla OLED y por interfaz serial.
 
 ## Configuración de pines
 
-### OLED y MPU 6050
+### OLED y BMP 280
 - SDA -> GPIO 21
 - SCL -> GPIO 22
 

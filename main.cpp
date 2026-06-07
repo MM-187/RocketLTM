@@ -1,18 +1,10 @@
 #include <Arduino.h>
 #include <Adafruit_Sensor.h>
-#include <DHT.h>
-#include <DHT_U.h>
 #include <Wire.h>
 #include <Adafruit_MPU6050.h>
 #include <SPI.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
-
-#define DHTPIN 19 //DHT Pin
-
-//#define DHTTYPE    DHT11     // DHT 11
-#define DHTTYPE    DHT22     // DHT 22 (AM2302)
-//#define DHTTYPE    DHT21     // DHT 21 (AM2301)
 
 #define SCREEN_WIDTH 64 // OLED display width, in pixels
 #define SCREEN_HEIGHT 32 // OLED display height, in pixels
@@ -20,17 +12,9 @@
 #define SCREEN_ADDRESS 0x3C ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
-DHT_Unified dht(DHTPIN, DHTTYPE);
 Adafruit_MPU6050 mpu;  // Crea el objeto del sensor
-uint8_t tick=0; // goes up every half second
 float accel[3];
-float temp;
 
-void getTempDHT(float &temp){
-    sensors_event_t dhtEvent;
-    dht.temperature().getEvent(&dhtEvent);
-    temp = dhtEvent.temperature;
-}
 
 void getAccMPU(float* acc){
   sensors_event_t a, g, temp;  // a = aceleración, g = giroscopio, temp = temperatura
@@ -38,10 +22,6 @@ void getAccMPU(float* acc){
   acc[0]=a.acceleration.x;
   acc[1]=a.acceleration.y;
   acc[2]=a.acceleration.z;
-}
-
-void showTempSerial(float temp){
-  Serial.println("Temperatura (°C) : " + String(temp,1));
 }
 
 void showAccSerial(float* acc){
@@ -74,11 +54,6 @@ void printOLEDxy(String str, int16_t x, int16_t y){
 void printOLEDxyln(String str, int16_t x, int16_t y){printOLEDxy(str+"\n",x,y);}
 
 
-void showTempOLED(float temp){
-  printOLEDxy("C "+String(temp,1),0,0);
-  display.display();
-}
-
 void showAccOLED(float* acc){
   printOLEDxyln("X "+String(acc[0],1),0,8);
   printOLEDln(  "Y "+String(acc[1],1));
@@ -87,10 +62,8 @@ void showAccOLED(float* acc){
 }
 
 void setup() {
-  pinMode(DHTPIN,INPUT);
   Serial.begin(9600);
 
-  dht.begin();
   while(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)){
     Serial.println("Asignacion OLED fallo");
   }
@@ -114,13 +87,6 @@ void setup() {
 
 void loop() {
   delay(500);
-  tick += 1;
-  
-  if(tick % 4 == 0){
-    getTempDHT(temp);
-    showTempSerial(temp);
-    showTempOLED(temp);
-  }
 
   getAccMPU(accel);
   showAccSerial(accel);

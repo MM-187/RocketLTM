@@ -20,7 +20,7 @@ Se muestra estos datos en una pantalla OLED y por interfaz serial.
 ## Librerías utilizadas
 
 - Adafruit SSD1306
-- Adafruit MPU6050
+- Adafruit BMP280
 
 ## Configuración de pines
 

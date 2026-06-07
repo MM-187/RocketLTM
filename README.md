@@ -1,39 +1,37 @@
-# Proyecto GPS ESP32 con GeoLinker
+# RocketLTM Modulo de sensado
 
 Proyecto desarrollado con ESP32 utilizando PlatformIO para adquisición y transmisión de datos GPS.
 
 ## Descripción
 
-El sistema obtiene datos de ubicación desde un módulo GPS NEO-6M conectado al ESP32 y permite:
+El sistema obtiene datos de los modulos GPS NEO-6M, MPU 6050 y BMP 280 conectados al ESP32 y permite:
 
-- Lectura de coordenadas GPS
-- Visualización de datos en pantalla OLED
-- Envío de información a la plataforma GeoLinker mediante WiFi
-- Almacenamiento temporal offline cuando no hay conexión
-- Reconexión automática a la red
-
-## Funcionalidades implementadas
-
-- Latitud y longitud
+- Leer datos de el ambiente como:
+- Latitud
+- Longitud
 - Altitud
-- Velocidad
-- Hora UTC
-- Número de satélites
-- Conexión WiFi
-- Envío de datos a la nube
-- Buffer offline
-- Manejo de errores y estados
+- Aceleracion
+- Presion barometrica
+- Temperatura
+
+- Transmitir esos datos a travez de el protocolo ESP-NOW
+- Mostrar los datos recibidos en pantalla OLED y serial
+
 
 ## Hardware utilizado
 
 - ESP32 DevKit
 - Módulo GPS NEO-6M
 - Pantalla OLED SSD1306
+- Módulo MPU 6050
+- Módulo BMP 280
 
 ## Librerías utilizadas
 
 - TinyGPSPlus
 - Adafruit SSD1306
+- Adafruit MPU6050
+- Adafruit BMP280
 - Adafruit GFX Library
 - ArduinoJson
 
@@ -43,28 +41,22 @@ El sistema obtiene datos de ubicación desde un módulo GPS NEO-6M conectado al 
 - RX -> GPIO 16
 - TX -> GPIO 17
 
-### OLED
+### OLED, MPU y BMP
 - SDA -> GPIO 21
 - SCL -> GPIO 22
 
 ## Archivos principales
 
-- `src/main.cpp`
-  - Visualización de datos GPS en pantalla OLED
+- `tx/src/main.cpp`
+  - Sensado y Transmision de datos a travez de ESP-NOW
+    
+- `rx/src/main.cpp`
+  - Recepcion y Visualización de datos en pantalla OLED
 
-- `src/main1.cpp`
-  - Implementación de GeoLinker y transmisión de datos por WiFi
+- `rx/platformio.ini`
+  - Configuración del entorno PlatformIO y dependencias
 
-- `include/gps_config.h`
-  - Configuración de pines y velocidades seriales
-
-- `lib/GeoLinker/src/GeoLinker.cpp`
-  - Implementación de la librería GeoLinker
-
-- `lib/GeoLinker/src/GeoLinker.h`
-  - Definiciones y clases de GeoLinker
-
-- `platformio.ini`
+- `tx/platformio.ini`
   - Configuración del entorno PlatformIO y dependencias
 
 ## Entorno de desarrollo
